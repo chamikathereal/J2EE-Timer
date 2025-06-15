@@ -31,6 +31,9 @@ public class TimerSessionBean {
         System.out.println("Task timed out." + timer);
     }
 
+    public void cancelTimer() {
+    }
+
 //    public void cancelTimer(){
 //        if(timer != null){
 //            timer.cancel();
