@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lk.jiat.web.eetimer.ejb.TaskSessionBean;
 import lk.jiat.web.eetimer.ejb.TimerSessionBean;
+import lk.jiat.web.eetimer.timer.Task;
 
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
@@ -25,19 +26,10 @@ public class Test extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        timerSessionBean.doTask();
+        Task task = timerSessionBean.doTask(20000);
+        System.out.println("Task is scheduled: " + task.getTaskId());
 
-//        Future<String> doTask = taskSessionBean.doTask();
-//
-//        try {
-//            String s = doTask.get();
-//            response.getWriter().println(s);
-//        } catch (InterruptedException e) {
-//            throw new RuntimeException(e);
-//        } catch (ExecutionException e) {
-//            throw new RuntimeException(e);
-//        }
-
+        request.getSession().setAttribute("task", task);
 
     }
 }
