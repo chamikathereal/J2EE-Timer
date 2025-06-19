@@ -22,23 +22,39 @@ public class TimerSessionBean {
         String taskId = UUID.randomUUID().toString();
         Task task = new Task(taskId, "Test Task");
         timerConfig.setInfo(task);
+        timerConfig.setPersistent(false);
 
         ScheduleExpression se = new ScheduleExpression();
 
-        timerService.createCalendarTimer(se,timerConfig);
-        System.out.println("ScheduleExpression: " + se);
-        //timerService.createSingleActionTimer(time, timerConfig);
-        return task;
+        se.hour("*");
+        se.minute("*");
+        se.second("*/10");
 
+
+        timerService.createCalendarTimer(se, timerConfig);
+
+        return task;
     }
 
     @Timeout
-    public void timeOutTask(Timer timer) {
+    public void timeOutTask1(Timer timer) {
 
         Serializable info = timer.getInfo();
         if (info instanceof Task) {
             Task task = (Task) info;
-            System.out.println(task.getTaskName() + ": " + task.getTaskId() + " Task is done. ");
+            System.out.println(task.getTaskName() + ": " + task.getTaskId() + " Task1 is done. ");
+        }
+
+        //System.out.println("Task timed out." + timer);
+    }
+
+    @Timeout
+    public void timeOutTask2(Timer timer) {
+
+        Serializable info = timer.getInfo();
+        if (info instanceof Task) {
+            Task task = (Task) info;
+            System.out.println(task.getTaskName() + ": " + task.getTaskId() + " Task2 is done. ");
         }
 
         //System.out.println("Task timed out." + timer);
