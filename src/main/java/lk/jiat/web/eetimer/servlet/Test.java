@@ -28,6 +28,7 @@ public class Test extends HttpServlet {
 
         Task task = timerSessionBean.doTask(20000);
         System.out.println("Task is scheduled: " + task.getTaskId());
+        System.out.println(task.getTaskName());
 
         request.getSession().setAttribute("task", task);
 

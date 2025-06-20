@@ -20,7 +20,7 @@ public class TimerSessionBean {
 
         TimerConfig timerConfig = new TimerConfig();
         String taskId = UUID.randomUUID().toString();
-        Task task = new Task(taskId, "Test Task");
+        Task task = new Task(taskId, "Task Testing");
         timerConfig.setInfo(task);
         timerConfig.setPersistent(false);
 
@@ -28,8 +28,7 @@ public class TimerSessionBean {
 
         se.hour("*");
         se.minute("*");
-        se.second("*/10");
-
+        se.second("*/2");
 
         timerService.createCalendarTimer(se, timerConfig);
 
@@ -42,11 +41,13 @@ public class TimerSessionBean {
         Serializable info = timer.getInfo();
         if (info instanceof Task) {
             Task task = (Task) info;
-            System.out.println(task.getTaskName() + ": " + task.getTaskId() + " Task1 is done. ");
+            System.out.println(task.getTaskName() + " : " + task.getTaskId() + " Task1 is done. ");
         }
 
-        //System.out.println("Task timed out." + timer);
     }
+
+    //Both are annotated with @Timeout, but only one of them will be called by the container
+    //(randomly or depending on deployment).
 
     @Timeout
     public void timeOutTask2(Timer timer) {
@@ -57,7 +58,6 @@ public class TimerSessionBean {
             System.out.println(task.getTaskName() + ": " + task.getTaskId() + " Task2 is done. ");
         }
 
-        //System.out.println("Task timed out." + timer);
     }
 
 
